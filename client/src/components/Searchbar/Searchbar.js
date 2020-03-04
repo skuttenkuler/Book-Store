@@ -1,39 +1,24 @@
 import React, { Component } from "react";
+
 import "./Searchbar.css"
 
-class Searchbar extends Component {
-    state = {
-        bookName: ""
-    };
-    handleInput = event => {
-        const value = event.target.value;
-        const name = event.target.name;
-        this.setState({
-            [name]: value
-        });
-    };
-
-    handleSubmit = event => {
-        event.preventDefault();
-        this.setState({
-            bookName: ""
-        });
-    };
-    render() {
-        return (
-            <div>
-            <form className="form">
-                <input
-                    value={this.state.bookName}
-                    name="searchbar"
-                    type="text"
-                    placeholder="Search for a Book"
-                    onChange={this.handleInput}
-                />
-                <button onClick={this.handleSubmit}>Search</button>
-            </form>
-            </div>
-        );
-    };
-};
-export default Searchbar;
+const SearchBar = ({value, onChange, onSubmit}) => {
+    return (
+        <div>
+        <form className="searchbar" onSubmit={onSubmit}>
+            <input
+                type="search"
+                id="searchbar"
+                placeholder="Search for a Book"
+                value={value}
+                onChange={onChange}
+            />
+            <button className="button">
+                <i className="fa fa-search"></i>
+            </button>
+        </form>
+        </div>
+    );
+}
+export default SearchBar
+    
