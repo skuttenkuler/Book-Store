@@ -3,9 +3,10 @@ const controller = require("../controllers/bookController")
 
 
 // API Routes
-router.get("/", controller.findAll);
-router.post("/", controller.create);
-router.get("/:id", controller.findOne);
-router.delete("/:id", controller.remove);
+router.get("/api/books", controller.findAll);
+router.post("/api/books", controller.create);
+router.get("/api/books/:id", controller.findOne);
+router.delete("/api/books/:id", controller.remove);
 
 module.exports = router;
+

@@ -4,7 +4,7 @@ import Searchbar from '../../components/Searchbar/Searchbar'
 import API from '../../utils/API'
 import { Navbar } from "../../components/Navbar/Navbar";
 import FavoriteBooks from "../Favorites/Favorites";
-import Books from '../Books/Books'
+import Books from '../../components/Books/Books'
 import './Home.css'
 
 class Home extends Component{
@@ -26,13 +26,13 @@ class Home extends Component{
             this.setState({
                 favBooks: res.data
             });
-        }).catch(error => this.console.log(error))
+        }).catch(error => console.log(error))
     }
     componentDidMount(){
         this.getFavBooks();
     }
     handleInputChange = event => {
-        const query = event.taget.value;
+        const query = event.target.value;
         this.setState({
             search: query
         });
