@@ -1,91 +1,130 @@
-import React, { Component }  from "react";
-
-import Searchbar from '../../components/Searchbar/Searchbar'
+import React, { useRef, useEffect }  from "react";
+import { useStoreContext } from "../../utils/GlobalState";
 import API from '../../utils/API'
-import { Navbar } from "../../components/Navbar/Navbar";
-import FavoriteBooks from "../Favorites/Favorites";
-import Books from '../../components/Books/Books'
+
 import './Home.css'
 
-class Home extends Component{
-    state = {
-        books: [],
-        favBooks: [],
-        saveId: [],
-        title: "",
-        author: "",
-        synopsis: "",
-        image: "",
-        link: "",
-        search: "",
-        fav: false,
-    };
+const Home = () => {
+    //use context
+    const [state, dispatch] = useStoreContext();
+    //use ref
+    const inputRef = useRef();
+    //hook to load the search
+    useEffect(() => {
+        renderSearch([]);
+    }, []);
 
-    getFavBooks =() => {
-        API.getBooks()
+    function renderSearch(results) {
+        dispatch({ type: "search", results: results});
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        console.log("clicked");
+        API.searchBooks(inputRef.current.value)
         .then(res => {
-            this.setState({
-                favBooks: res.data
-            });
-        }).catch(error => console.log(error))
+            console.log(res);
+            renderSearch(res.data)
+        }).catch(err => console.log(err));
     }
-    componentDidMount(){
-        this.getFavBooks();
+    function handleClick(book){
+        console.log(book);
+        API.saveBook(book)
+        .then(() => {
+            console.log("faved!")
+        });
     }
-    handleInputChange = event => {
-        const query = event.target.value;
-        this.setState({
-            search: query
-        });
-    };
-
-    handleSearch = event => {
-        event.preventDefault();
-        console.log("clicked inside handle")
-        console.log(this.state.search)
-        API.searchBooks(this.state.search)
-        .then(res => {
-            console.log("yeah")
-            this.setState({
-                books: res.data.items
-            });
-
-        }).catch(error => this.console.log(error))
-    }
-    onClickHome = event => {
-        event.preventDefault();
-        this.setState({
-            fav:false
-        });
-    };
-    onClickFav = event => {
-        event.preventDefault();
-        this.setState({
-            fav: true
-        });
-    };
-    render(){
+    
         return (
-            <div className="home">
-                <Navbar homeClick={this.onClickHome} favClick={this.onClickFav}></Navbar>
-                <div className="header">
-                    <h1>Find Your Favorite Books!</h1>
-                    
+            <div className="container home">
+                <div className="row">
+                    <div className="col-sm-12">
+                    <div className="jumbotron">
+                        <div className="container">
+                        <h1 className="home-header">Welcome to My Bookstore!</h1>
+                        <p className="lead">Which book are you looking for?</p>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-                <Searchbar 
-                    onsubmit={this.handleSearch}
-                    value={this.state.search}
-                    onChange={this.handleInputChange}></Searchbar>
-                { !this.state.savedPage && <Books
-                    { ...this.state }
-                /> }
-                { this.state.savedPage && <FavoriteBooks
-                    { ...this.state }
-                /> }
-            </div>
-        )
-    }
-}
+                <div className="row">
+                    <div className="col-sm-12">
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="bookSearchInput"
+                            placeholder="Book Title..."
+                            ref={inputRef}>
+                        </input>
+                        <button type="submit" className="btn btn-primary">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-12">
+                    <table className="table">
+                        <tbody>
+                        {state ? ( 
+                            state.map(book => {
+                            if (book.volumeInfo.imageLinks && book.volumeInfo.authors) {
+                            return (
+                                <tr key={book.id}>
+                                <td>
+                                    <img
+                                    src={book.volumeInfo.imageLinks.thumbnail}
+                                    alt={book.title}
+                                    />
+                                </td>
+                                <td>{book.volumeInfo.title}</td>
+                                <td>
+                                    <h5>{book.title}</h5>
+                                    <p>
+                                    by{" "}
+                                    <strong>{book.volumeInfo.authors.join(" ")}</strong>
+                                    </p>
+                                    <p>{book.volumeInfo.description}</p>
+                                </td>
+                                <td>
+                                    <a
+                                    href="#"
+                                    onClick={() =>
+                                        handleClick({
+                                        title: book.volumeInfo.title,
+                                        authors: book.volumeInfo.authors.join(" "),
+                                        description: book.volumeInfo.description,
+                                        image: book.volumeInfo.imageLinks.thumbnail,
+                                        link: book.volumeInfo.previewLink
+                                        })
+                                    }
+                                    className="btn btn-primary"
+                                    >
+                                    Add
+                                    </a>
+                                    <a
+                                    href={book.volumeInfo.previewLink}
+                                    className="btn btn-secondary"
+                                    target="_blank"
+                                    >
+                                    Google
+                                    </a>
+                                </td>
+                                </tr>
+                            );
+                            }
+                        })
+                         ): ("")} </tbody>
+                    </table>
+                    </div>
+                </div>
+                </div>
+            );
+            };
+
       
 export default Home;
 

@@ -1,5 +1,4 @@
-import React, { creacteContext, useReducer, useContext } from 'react';
-import { createContext } from 'vm';
+import React, { createContext, useReducer, useContext } from 'react';
 
 const StoreContext = createContext();
 const {Provider} = StoreContext;

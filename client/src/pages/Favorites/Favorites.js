@@ -1,59 +1,82 @@
-import React, {Component} from 'react';
+import React, { useEffect } from 'react';
+import { useStoreContext } from '../../utils/GlobalState';
 import API from '../../utils/API'
-import Book from '../../components/Book/Book'
-import Booklist from '../../components/Booklist/Booklist'
-import { DeleteBtn } from '../../components/DeleteBtn/DeleteBtn';
-class FavoriteBooks extends Component {
-    getFavs = () => {
+
+const FavList = () => {
+    const [state, dispatch] = useStoreContext();
+
+    useEffect(() => {
+        loadBooks();
+    }, []);
+
+    function loadBooks(){
         API.getBooks()
-        .then(res => {
-            this.setState({
-                favBooks: res.data
-            });
-        }).catch(error => console.log(error));
-    };
-    
-    componentDidMount() {
-        this.getFavs();
-    };
-
-    handleDelete = event => {
-        event.preventDefault();
-
-        const deleteBook = event.target.id;
-        API.deleteBook(deleteBook)
-        .then(res => {
-            console.log("deleted");
-        }).catch(error => console.log(error))
+        .then(results => {
+            dispatch({ type: "loadFavs", books: results.data});
+        });
     }
-    render(){
-        return(
-            <div className="container">
-            <h4>Your Favorites:</h4>
-                <div className="row">
-                    {this.props.favBooks.length ? (
-                        <Booklist>
-                            {this.props.favBooks.map((favBooks, i) => (
-                                <Book key={"card" + i}>
-                                    <img src={ favBooks.image ? (favBooks.image): ("")}
-                                         alt={favBooks.title}></img>
-                                    <a className="book" href={favBooks.link}><i>{favBooks.title}</i> by {favBooks.author}</a>
-                                    <br/>
-                                    <p>{favBooks.synopsis}</p>
-                                    <DeleteBtn 
-                                        key={i}
-                                        id={favBooks.id}
-                                        onClick={this.handleDelete}>
-                                                Delete
-                                    </DeleteBtn>
-                                </Book>
-                            ))}     
-                        </Booklist>
-                    ) : (<h4>No favorited Books yet!</h4>)}
+
+    function handleClick(id){
+        API.deleteBook(id)
+        .then(() => loadBooks()
+        )};
+
+
+
+    return (
+        <div className="container">
+        <div className="row">
+            <div className="col-12">
+            <div className="jumbotron text-center">
+                <div className="container">
+                <h1 className="display-4">Your Saved Books</h1>
+                <p className="lead">Add as many as you want!</p>
                 </div>
             </div>
-        )
-    }
-}
 
-export default FavoriteBooks;
+            <table className="table">
+                <tbody>
+                {state.map(book => {
+                    return (
+                    <tr key={book._id}>
+                        <td>
+                        <img src={book.image} alt={book.title} />
+                        </td>
+                        <td>
+                        <h5>{book.title}</h5>
+                        <p>
+                            by <strong>{book.authors}</strong>
+                        </p>
+                        <p>{book.description}</p>
+                        </td>
+                        <td>
+                        <a href={`/book/${book._id}`} className="btn btn-primary">
+                            Details
+                        </a>
+                        <a
+                            href={book.link}
+                            className="btn btn-secondary"
+                            target="_blank"
+                        >
+                            Google
+                        </a>
+                        <a
+                            href="#"
+                            onClick={() => handleClick(book._id)}
+                            className="btn btn-danger"
+                        >
+                            Remove
+                        </a>
+                        </td>
+                    </tr>
+                    );
+                })}
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    );
+};
+
+export default FavList;

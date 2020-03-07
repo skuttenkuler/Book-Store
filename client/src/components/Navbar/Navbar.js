@@ -2,11 +2,11 @@ import React from "react";
 
 
 
-export function Navbar(homeClick, favClick) {
+export default function Navbar() {
     return(
         <nav className="navbar">
-            <button className="navbar-link" onClick={homeClick}>Home</button>
-            <button className="navbar-link" onClick={favClick}>Favorites</button>
+            <button className="navbar-link" href="/home">Home</button>
+            <button className="navbar-link" href="/favorites">Favorites</button>
         </nav>
     )
 }
