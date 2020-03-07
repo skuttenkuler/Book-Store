@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 
-import {FavBtn} from '../../components/FavBtn/FavBtn'
+import {FavBtn} from '../FavBtn/FavBtn'
 import API from '../../utils/API'
-import BookList from '../../components/Booklist/Booklist';
-import Book from '../../components/Book/Book';
+import { Book, BookList } from './BookCard'
 
 class Books extends Component{
-    FavBook = event =>{
-        const newfavBookID = event.target.id;
+    
+    
+    handleFavBook = event => {
+        const newFav = event.target.id;
         
-        this.props.favBookID.concat(newfavBookID)
+        this.props.favBookID.concat(newFav)
 
         const book = {
             title:event.target.dataset.title,
@@ -29,9 +30,9 @@ class Books extends Component{
         return(
             <div className="container">
                 <div className="row">
-                    {this.props.books.length ? (
+                    {this.props.book.length ? (
                     <BookList>
-                        {this.props.books.map((book,i) => (
+                        {this.props.book.map((book,i) => (
                             <Book key={ "book" + i}>
                                 <img
                                     alt={book.title}

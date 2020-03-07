@@ -1,16 +1,10 @@
 import React from 'react';
-import Book from '../Book/Book'
 
-
-export default function BookList(){
+export default function BookList({children}){
     return(
 
         <div className="container bookList">
-            <ul className="list-group">
-                
-                <Book/>
-
-            </ul>
+           {children}
         </div>
     )
 }

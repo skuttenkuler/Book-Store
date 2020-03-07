@@ -19,7 +19,8 @@ class Home extends Component{
         link: "",
         search: "",
         fav: false,
-    }
+    };
+
     getFavBooks =() => {
         API.getBooks()
         .then(res => {
@@ -40,8 +41,11 @@ class Home extends Component{
 
     handleSearch = event => {
         event.preventDefault();
+        console.log("clicked inside handle")
+        console.log(this.state.search)
         API.searchBooks(this.state.search)
         .then(res => {
+            console.log("yeah")
             this.setState({
                 books: res.data.items
             });

@@ -1,12 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path")
-const PORT = process.env.PORT || 3001;
-const app = express();
 const router = require("./routes");
 const cors = require("cors");
 // Define middleware here
 
+const PORT = process.env.PORT || 3001;
+const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -20,22 +20,22 @@ if (process.env.NODE_ENV === "production") {
 }
 
 
-app.use("/api/books", router);
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./build/index.html"));
-});
 
-
-
-// Define API routes here
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/bookstore", {
   useNewUrlParser: true}).catch(error => console.log(error));
 mongoose.connection.on("open", ref => {
-  console.log("Mongo connected")
+  console.log("Database connected")
 })
-534
+
+
+// Define API routes here
+app.use("/api", router);
+
 // Send every other request to the React app
 //Define any API routes before this runs
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
 
 
 
