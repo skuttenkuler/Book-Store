@@ -5,35 +5,40 @@ import API from '../../utils/API'
 import './Home.css'
 
 const Home = () => {
-    //use context
+    
     const [state, dispatch] = useStoreContext();
-    //use ref
+  
     const inputRef = useRef();
-    //hook to load the search
-    useEffect(() => {
-        renderSearch([]);
+
+
+    useEffect( () => {
+        renderSearch([])
+        console.log(state)
     }, []);
-
     function renderSearch(results) {
-        dispatch({ type: "search", results: results});
+      dispatch({ type: "search", results: results });
     }
-
+  
+// promise to get data
     const handleSubmit = e => {
-        e.preventDefault();
-        console.log("clicked");
-        API.searchBooks(inputRef.current.value)
-        .then(res => {
-            console.log(res);
-            renderSearch(res.data)
-        }).catch(err => console.log(err));
+      e.preventDefault();
+      //console.log(inputRef.current.value);
+  
+      API.searchBooks(inputRef.current.value)
+        .then(books => {
+          //console.log(books);
+          renderSearch(books.data.items);
+        })
+        .catch(err => console.log(err));
+    };
+  
+    function handleClick(book) {
+      console.log("handleclick");
+      API.saveBook(book).then(() => {
+        console.log("success");
+      });
     }
-    function handleClick(book){
-        console.log(book);
-        API.saveBook(book)
-        .then(() => {
-            console.log("faved!")
-        });
-    }
+  
     
         return (
             <div className="container home">
@@ -59,7 +64,7 @@ const Home = () => {
                             ref={inputRef}>
                         </input>
                         <button type="submit" className="btn btn-primary">
-                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <i className="fa fa-search" aria-hidden="true"></i>
                         </button>
                         </div>
                     </form>
@@ -69,8 +74,7 @@ const Home = () => {
                     <div className="col-sm-12">
                     <table className="table">
                         <tbody>
-                        {state ? ( 
-                            state.map(book => {
+                            {state.map(book => {
                             if (book.volumeInfo.imageLinks && book.volumeInfo.authors) {
                             return (
                                 <tr key={book.id}>
@@ -117,7 +121,7 @@ const Home = () => {
                             );
                             }
                         })
-                         ): ("")} </tbody>
+                         } </tbody>
                     </table>
                     </div>
                 </div>

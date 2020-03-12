@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useStoreContext } from '../../utils/GlobalState';
 import API from '../../utils/API'
 
-const FavList = () => {
+const Favorites = () => {
     const [state, dispatch] = useStoreContext();
 
     useEffect(() => {
@@ -17,6 +17,7 @@ const FavList = () => {
     }
 
     function handleClick(id){
+        console.log("handleDelete")
         API.deleteBook(id)
         .then(() => loadBooks()
         )};
@@ -29,8 +30,8 @@ const FavList = () => {
             <div className="col-12">
             <div className="jumbotron text-center">
                 <div className="container">
-                <h1 className="display-4">Your Saved Books</h1>
-                <p className="lead">Add as many as you want!</p>
+                <h1 className="display-4">Your Favorites:</h1>
+                
                 </div>
             </div>
 
@@ -50,9 +51,6 @@ const FavList = () => {
                         <p>{book.description}</p>
                         </td>
                         <td>
-                        <a href={`/book/${book._id}`} className="btn btn-primary">
-                            Details
-                        </a>
                         <a
                             href={book.link}
                             className="btn btn-secondary"
@@ -79,4 +77,4 @@ const FavList = () => {
     );
 };
 
-export default FavList;
+export default Favorites;

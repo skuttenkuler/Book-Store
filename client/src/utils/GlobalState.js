@@ -1,40 +1,40 @@
-import React, { createContext, useReducer, useContext } from 'react';
+import React, { createContext, useReducer, useContext } from "react";
+
 
 const StoreContext = createContext();
-const {Provider} = StoreContext;
+const { Provider } = StoreContext;
+
 
 const reducer = function(state, action) {
-    switch (action.type) {
-        case "single":
-            return "single";
-        case "loadFavs":
-            return action.books;
-        case "search":
-            return action.searchRes;
-        default:
-            return state;
-
-    }
+  switch (action.type) {
+    
+    case "loadFavs":
+      return action.books;
+    case "search":
+      return action.results;
+    default:
+      return state;
+  }
 };
 
-const StoreProvider = function({ vale = [], ...props }){
-    const [state, dispatch] = useReducer((state,action) => {
-        switch (action.type) {
-            case "single":
-                return "single";
-            case "loadFavs":
-                return action.books;
-            case "search":
-                return action.searchRes
-            default:
-                return state;
-        }
-    }, []);
-    return <Provider value={[state, dispatch]} {...props} />
-}
+const StoreProvider = function({ value = [], ...props }) {
+  const [state, dispatch] = useReducer((state, action) => {
+    switch (action.type) {
+      case "loadFavs":
+        return action.books;
+      case "search":
+        return action.results;
+      default:
+        return state;
+    }
+  }, []);
+
+  return <Provider value={[state, dispatch]} {...props} />;
+};
+
 
 const useStoreContext = () => {
-    return useContext(StoreContext);
+  return useContext(StoreContext);
 };
 
-export {StoreProvider, useStoreContext};
+export { StoreProvider, useStoreContext };

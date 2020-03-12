@@ -5,8 +5,8 @@ import React from "react";
 export default function Navbar() {
     return(
         <nav className="navbar">
-            <button className="navbar-link" href="/home">Home</button>
-            <button className="navbar-link" href="/favorites">Favorites</button>
+            <a className="navbar-link" href="/home">Home</a>
+            <a className="navbar-link" href="/favorites">Favorites</a>
         </nav>
     )
 }
