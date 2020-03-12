@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useStoreContext } from '../../utils/GlobalState';
 import API from '../../utils/API'
-
+import "./Favorites.css"
 const Favorites = () => {
     const [state, dispatch] = useStoreContext();
 
@@ -30,7 +30,7 @@ const Favorites = () => {
             <div className="col-12">
             <div className="jumbotron text-center">
                 <div className="container">
-                <h1 className="display-4">Your Favorites:</h1>
+                <h1 className="display-4 fav-jumbo">Your Favorites:</h1>
                 
                 </div>
             </div>
@@ -39,8 +39,8 @@ const Favorites = () => {
                 <tbody>
                 {state.map(book => {
                     return (
-                    <tr key={book._id}>
-                        <td>
+                    <tr key={book._id} className="favs">
+                        <td  >
                         <img src={book.image} alt={book.title} />
                         </td>
                         <td>

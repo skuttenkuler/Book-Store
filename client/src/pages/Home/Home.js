@@ -64,7 +64,7 @@ const Home = () => {
                             ref={inputRef}>
                         </input>
                         <button type="submit" className="btn btn-primary">
-                            <i className="fa fa-search" aria-hidden="true"></i>
+                            Search
                         </button>
                         </div>
                     </form>
@@ -77,21 +77,21 @@ const Home = () => {
                             {state.map(book => {
                             if (book.volumeInfo.imageLinks && book.volumeInfo.authors) {
                             return (
-                                <tr key={book.id}>
+                                <tr key={book.id} className="book-text">
                                 <td>
                                     <img
                                     src={book.volumeInfo.imageLinks.thumbnail}
                                     alt={book.title}
                                     />
                                 </td>
-                                <td>{book.volumeInfo.title}</td>
+                                <td className="title" >{book.volumeInfo.title}</td>
                                 <td>
-                                    <h5>{book.title}</h5>
-                                    <p>
+                                    <h5 >{book.title}</h5>
+                                    <p >
                                     by{" "}
-                                    <strong>{book.volumeInfo.authors.join(" ")}</strong>
+                                    <strong >{book.volumeInfo.authors.join(" ")}</strong>
                                     </p>
-                                    <p>{book.volumeInfo.description}</p>
+                                    <p >{book.volumeInfo.description}</p>
                                 </td>
                                 <td>
                                     <a
