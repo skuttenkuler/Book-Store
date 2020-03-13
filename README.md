@@ -1,29 +1,86 @@
-# Create React Express App
+# My Book Store
 
-## About This Boilerplate
+A MERN stack application utitilizing Google Books API to search and favorite your own list of books. 
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+![Alt text](./client/src/assets/images/bookstore.gif?raw=true "Preview")
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
 
-## Starting the app locally
+## Technologies Used
 
-Start by installing front and backend dependencies. While in this directory, run the following command:
+* [React](https://reactjs.org/)
+* [NodeJS](https://nodejs.org/)
+* [Express](https://expressjs.com/)
+* [MongoDB](https://www.mongodb.com/)
+* [Google Books API](https://developers.google.com/books)
 
-```
-npm install
-```
+## Code Snippets
 
-This should install node modules within the server and the client folder.
+Methods to hand searching and displaying returning books.
 
-After both installations complete, run the following command in your terminal:
+```javascript
+    
+    const [state, dispatch] = useStoreContext();
+  
+    const inputRef = useRef();
 
-```
-npm start
-```
 
-Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
+    useEffect( () => {
+        renderSearch([])
+        console.log(state)
+    }, []);
+    function renderSearch(results) {
+      dispatch({ type: "search", results: results });
+    }
+  
 
-## Deployment (Heroku)
+    const handleSubmit = e => {
+      e.preventDefault();
+      
+  
+      API.searchBooks(inputRef.current.value)
+        .then(books => {
 
-To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.
+          renderSearch(books.data.items);
+        })
+        .catch(err => console.log(err));
+    };
+  
+    function handleClick(book) {
+      console.log("handleclick");
+      API.saveBook(book).then(() => {
+        console.log("success");
+      });
+    }
+  ```
+
+Client Side Routes
+
+  ```javascript
+  getBooks: function(){
+    return axios.get("/api/books");
+},
+
+saveBook: function(postData){
+    console.log("saveBook")
+    return axios.post("/api/books/", postData);
+},
+
+deleteBook: function(id) {
+    console.log(id)
+    return axios.delete("/api/books/" + id);
+  },
+
+searchBooks: function(searchTerms) {
+  return  axios
+          .get("https://www.googleapis.com/books/v1/volumes?q=" + searchTerms + "&maxResults=40")
+          .then(books => books)
+          .catch(err => console.log(err));
+},
+};
+
+  ```
+
+# Author
+  * Sam Kuttenkuler
+    - [Github](https://www.github.com/skuttenkuler)
+    - [LinkedIn](https://www.linkedin.com/in/skdev91)
