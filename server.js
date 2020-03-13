@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path")
-const router = require("./routes");
 const cors = require("cors");
 // Define middleware here
 
@@ -21,15 +20,11 @@ if (process.env.NODE_ENV === "production") {
 
 
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/bookstore", {
-  useNewUrlParser: true}).catch(error => console.log(error));
-mongoose.connection.on("open", ref => {
-  console.log("Database connected")
-})
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/bookstore");
 
 
 // Define API routes here
-app.use("/api", router);
+require("./routes/index.js")(app);
 
 // Send every other request to the React app
 //Define any API routes before this runs
