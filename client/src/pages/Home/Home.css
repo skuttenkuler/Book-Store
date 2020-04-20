@@ -1,5 +1,6 @@
 html{
-    background-color: bisque;
+    background-image: url("../../assets/images/main.png");
+    background-size: cover;
     height: 100vh;
     width: 100vw;
 }
@@ -7,10 +8,12 @@ html{
 .home{
     background-image: url("../../assets/images/black-and-white-books-education-facts-433333.jpg");
     height:100%;
-    width: 100%
+    width: 100%;
+    border-radius: 15px;
 }
 .homePage{ 
-    background-color: bisque;
+    background-image: url("../../assets/images/main.png");
+    background-size: contain;
     height: 100vh;
     width: 100vw;
 }
@@ -23,3 +26,4 @@ html{
 .title{
     font-size: 1.5rem;
 }
+

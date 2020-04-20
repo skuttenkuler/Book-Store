@@ -2,7 +2,7 @@
 
 A MERN stack application utitilizing Google Books API to search and favorite your own list of books. 
 
-![Alt text](./client/src/assets/images/bookstore.gif?raw=true "Preview")
+![Alt text](./client/src/assets/images/BookStore.gif?raw=true "Preview")
 
 
 ## Technologies Used
@@ -84,3 +84,7 @@ searchBooks: function(searchTerms) {
   * Sam Kuttenkuler
     - [Github](https://www.github.com/skuttenkuler)
     - [LinkedIn](https://www.linkedin.com/in/skdev91)
+
+# API
+
+[Google Books](https://developers.google.com/books)
