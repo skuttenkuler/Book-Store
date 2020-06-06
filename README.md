@@ -1,6 +1,6 @@
 # My Book Store
 
-A MERN stack application utitilizing Google Books API to search and favorite your own list of books. 
+A MERN stack application utilizing Google Books API to search and favorite your own list of books. 
 
 ![Alt text](./client/src/assets/images/BookStore.gif?raw=true "Preview")
 
