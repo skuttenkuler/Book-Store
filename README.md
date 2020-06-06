@@ -4,6 +4,8 @@ A MERN stack application utilizing Google Books API to search and favorite your 
 
 ![Alt text](./client/src/assets/images/BookStore.gif?raw=true "Preview")
 
+## Deployed Site
+* [Book Store](http://still-earth-60188.herokuapp.com/)
 
 ## Technologies Used
 
